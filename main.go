@@ -14,6 +14,9 @@ func main() {
 
 	testFour := []int{1, 2, 3, 4, 5}
 	fmt.Println(removeSliceItemV4(testFour, 1))
+
+	testFive := []int{1, 2, 3, 4, 5}
+	fmt.Println(removeSliceItemV5(testFive, 1))
 }
 
 func removeSliceItemV1(slice []int, index int) []int {
@@ -80,4 +83,24 @@ func removeSliceItemV4[T any](slice []T, index int) []T {
 	copy(slice[index:], slice[index+1:])
 
 	return slice[:len(slice)-1]
+}
+
+func removeSliceItemV5[T any](slice []T, index int) []T {
+	if index < 0 {
+		fmt.Println("index 不能小于 0")
+		return slice
+	}
+
+	if index >= len(slice) {
+		fmt.Println("index 超出 slice 范围")
+		return slice
+	}
+
+	copy(slice[index:], slice[index+1:])
+	slice = slice[:len(slice)-1]
+
+	// 引入缩容机制
+	newSlice := make([]T, len(slice))
+	copy(newSlice, slice)
+	return newSlice
 }
